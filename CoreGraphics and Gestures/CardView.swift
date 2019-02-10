@@ -10,6 +10,19 @@ import UIKit
 
 class CardView: UIView {
 
+    
+    private var number: Int = 5 { didSet {setNeedsDisplay() }}
+    private lazy var upperLeftCornerLabel = createLabel()
+    private lazy var loweRightCornerLabel = createLabel()
+    private lazy var centerLabel = createLabel()
+    private var cornerLabelString: NSAttributedString {
+        return makeAttributedString(String(number), fontSize: defaultValues.fontSizeOfCornerLabel, position.corner)
+    }
+    private var centralLabelString: NSAttributedString {
+        return makeAttributedString(String(number), fontSize: defaultValues.fontSizeOfCentralLabel, position.center)
+    }
+    
+    // MARK: - Settings of numbers on card
     private func makeAttributedString (_ string: String, fontSize: CGFloat, _ position: position) -> NSAttributedString {
         var font = UIFont.preferredFont(forTextStyle: .body).withSize(fontSize)
         font = UIFontMetrics(forTextStyle: .body).scaledFont(for: font)
@@ -27,11 +40,6 @@ class CardView: UIView {
         }
         return NSAttributedString (string: string, attributes: attributes)
     }
-    private var number: Int = 5 { didSet {setNeedsDisplay() }}
-    private lazy var upperLeftCornerLabel = createLabel()
-    private lazy var loweRightCornerLabel = createLabel()
-    private lazy var centerLabel = createLabel()
-    
     
     private func createLabel () -> UILabel {
         let label = UILabel ()
@@ -39,22 +47,8 @@ class CardView: UIView {
         addSubview(label)
         return label
     }
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        configureLabel (upperLeftCornerLabel, position.corner)
-        configureLabel(loweRightCornerLabel, position.corner)
-        configureLabel(centerLabel, position.center)
-        upperLeftCornerLabel.frame.origin = bounds.origin.offsetBy(dx: 20, dy: 20)
-        loweRightCornerLabel.frame.origin = bounds.origin.offsetBy(dx: bounds.width-50.0, dy: bounds.height-70.0)
-        centerLabel.frame.origin = bounds.origin.offsetBy(dx: bounds.midX-80, dy: bounds.midY-132)
-    }
     
-    private var cornerLabelString: NSAttributedString {
-        return makeAttributedString(String(number), fontSize: defaultValues.fontSizeOfCornerLabel, position.corner)
-    }
-    private var centralLabelString: NSAttributedString {
-        return makeAttributedString(String(number), fontSize: defaultValues.fontSizeOfCentralLabel, position.center)
-    }
+    // MARK: - View of numbers on card
     private func configureLabel(_ label: UILabel, _ position: position)  {
         if position == .corner {
             label.attributedText = cornerLabelString
@@ -65,6 +59,20 @@ class CardView: UIView {
         label.sizeToFit()
     }
     
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        configureLabel (upperLeftCornerLabel, position.corner)
+        configureLabel(loweRightCornerLabel, position.corner)
+        configureLabel(centerLabel, position.center)
+        upperLeftCornerLabel.frame.origin = bounds.origin.offsetBy(dx: 20, dy: 20)
+        loweRightCornerLabel.frame.origin = bounds.origin.offsetBy(dx: bounds.width-50.0, dy: bounds.height-70.0)
+        centerLabel.frame.origin = bounds.origin.offsetBy(dx: bounds.midX-80, dy: bounds.midY-132)
+    }
+    
+    
+    
+    // MARK: - Draw view of card
     override func draw(_ rect: CGRect) {
         let rounded_rect = UIBezierPath(roundedRect: bounds, cornerRadius: defaultValues.cornerRadiusOfCard)
         UIColor.blue.setFill()
@@ -74,21 +82,24 @@ class CardView: UIView {
         rounded_rect.lineWidth = defaultValues.lineWidth
         rounded_rect.stroke()
         let rect = CGRect(origin: CGPoint(x: sizeOfCenter.xCoordFromOrigin , y: sizeOfCenter.yCoordFromOrigin ) , size: CGSize(width: bounds.width*sizeOfCenter.widthOfCenter, height: bounds.height*sizeOfCenter.heightofCenter))
-       let path = UIBezierPath(ovalIn: rect)
+        let path = UIBezierPath(ovalIn: rect)
         UIColor.white.setFill()
         path.fill()
         
     }
-
+    
 }
+
+
 
 extension CGPoint {
     func offsetBy (dx: CGFloat, dy:CGFloat) -> CGPoint {
         return CGPoint(x: x+dx, y: y+dy)
     }
-
+    
 }
 
+// MARK: - Constants
 extension CardView {
     private struct sizeOfCenter {
         static let widthOfCenter: CGFloat = 0.70

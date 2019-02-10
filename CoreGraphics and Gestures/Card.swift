@@ -14,18 +14,10 @@ struct Card: CustomStringConvertible {
     }
     
     
-    var colour: Colour
-    var number: Int
+    private var colour: Colour
+    private var number: Int
     
-//    static var allNumbers: [Int] {
-//        get {
-//            var all = [Int]()
-//            for i in 0...9 {
-//                all.append(i)
-//            }
-//            return all
-//        }
-//    }
+
     
     enum Colour {
         case green
