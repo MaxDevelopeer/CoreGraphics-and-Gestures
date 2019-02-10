@@ -11,7 +11,6 @@ import Foundation
 struct CardDeck {
     private(set) var cards = [Card]()
     
-    //TODO:
     init () {
         for colour in Card.Colour.all {
             for number in 0...9 {

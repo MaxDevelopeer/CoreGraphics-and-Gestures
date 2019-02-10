@@ -35,24 +35,5 @@ struct Card: CustomStringConvertible {
     static var all = [Colour.green, .yellow, .red, .blue]
     }
     
-//    enum Number {
-//        case number (Int)
-//
-//        var order: Int? {
-//            switch self {
-//            case .number(let num): return num
-//            default: return nil
-//            }
-//        }
-//        static var all: [Number] {
-//            var allNumber: [Number]
-//            for i in 0...9 {
-//                allNumber.append(Card.Number.number(i))
-//            }
-//            return allNumber
-//        }
-//    }
-    
-    
     
 }
